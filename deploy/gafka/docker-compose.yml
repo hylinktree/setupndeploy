@@ -1,0 +1,26 @@
+version: '2'
+services:
+  gookeeper:
+    image: gdca/basezk
+    restart: always
+  gafka:
+    image: gdca/baseka
+    restart: always
+    ports:
+      - "3927:9092"
+    #resources:
+    #    reservations:
+    #        memory: 6000M
+    environment:
+        KAFKA_ADVERTISED_HOST_NAME: "${DOCKER_MACHINE_IP}"
+        KAFKA_ZOOKEEPER_CONNECT: gookeeper:2181
+        KAFKA_CREATE_TOPICS: "InitialWorkload:8:1,PlainCsvDescretDefault:4:1,RawOpenShort:2:1,DataOpenShort:2:1,RawFASecurity:2:1,DataFASecurity:2:1,RawAutoCad:2:1,DataAutoCad:2:1,RawFASecurityRELIABILITY:2:1,RecycleBin:2:1,FinWorkload:2:1,PostSqlUpdate:2:1,RawIQA:2:1,RawREGION:2:1,DataSTRIP:2:1,RawPLATING:2:1"
+        KAFKA_LOG4J_LOGGERS: "kafka.controller=WARN,kafka=WARN"
+        KAFKA_LOG4J_ROOT_LOGLEVEL: WARN
+        KAFKA_TOOLS_LOG4J_LOGLEVEL: ERROR
+        KAFKA_MESSAGE_MAX_BYTES: 31457280
+        KAFKA_LOG_RETENTION_BYTES: 10737418240
+        KAFKA_LOG_RETENTION_HOURS: 336
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
