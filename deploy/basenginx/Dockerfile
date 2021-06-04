@@ -27,5 +27,6 @@ RUN mkdir /etc/nginx/ssl
 	
 COPY ng.default /etc/nginx/sites-available/default
 COPY entry.sh /
+COPY fake.* /etc/nginx/ssl/
 CMD /entry.sh
 
