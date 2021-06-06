@@ -13,7 +13,7 @@ server {
         listen 443 ssl;
         server_name icr.io;
         ssl_certificate       /etc/nginx/ssl/auth.crt;
-        ssl_certificate_key   /etc/nginx/ssl/auth.key;
+        ssl_certificate_key   /etc/nginx/ssl/auth-no.key;
         ssl_protocols         SSLv3 TLSv1 TLSv1.1 TLSv1.2;
         ssl_ciphers           HIGH:!aNULL:!MD5;
         ssl_session_cache     shared:SSL:20m;
