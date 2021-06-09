@@ -1,6 +1,6 @@
-rm -rf auth 2>/dev/null 
-mkdir auth 2>/dev/null
-htpasswd -Bc auth/registry.password iii 
+rm -rf .auth 2>/dev/null 
+mkdir .auth 2>/dev/null
+htpasswd -Bc .auth/registry.password iii 
 
 # docker run --rm -it \
 #   -p 5009:5000 \
