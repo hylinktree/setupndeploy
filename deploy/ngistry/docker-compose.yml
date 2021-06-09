@@ -4,8 +4,8 @@ services:
   web:
     image: nginx
     volumes:
-    - ./templates:/etc/nginx/templates
-    - ./etc/nginx:/etc/nginx/
+    - ./.templates:/etc/nginx/templates
+    - ./.etc/nginx:/etc/nginx/
     ports:
     - "8080:80"
     environment:
@@ -20,8 +20,8 @@ services:
       REGISTRY_AUTH: htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
       REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
-      REGISTRY_HTTP_TLS_CERTIFICATE: /cert/auth.crt
-      REGISTRY_HTTP_TLS_KEY: /cert/auth-no.key
+      #REGISTRY_HTTP_TLS_CERTIFICATE: /cert/auth.crt
+      #REGISTRY_HTTP_TLS_KEY: /cert/auth-no.key
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
     volumes:
       - ./.auth:/auth
