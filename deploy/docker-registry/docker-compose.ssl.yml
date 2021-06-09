@@ -2,6 +2,7 @@ version: '3'
 
 services:
   registry:
+    restart: always
     image: registry:2
     ports:
     - "5002:5000"
