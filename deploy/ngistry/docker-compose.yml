@@ -11,7 +11,6 @@ services:
     environment:
     - NGINX_HOST=foobar.com
     - NGINX_PORT=80
-    command: [ bash]
   registry:
     # restart: always
     image: registry:2
