@@ -4,12 +4,12 @@ services:
   nats:
     network_mode: host
     image: nats
+    entrypoint: /nats-server -js
     # restart: always
     # ports: 
     #    - "4222:4222"
     environment:
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
-    #volumes:
-            #- ./auth:/auth
-            #- ./data:/data
+    volumes:
+            - ./jetstream:/tmp/nats/jetstream
 
