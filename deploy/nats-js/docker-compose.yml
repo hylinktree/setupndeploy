@@ -4,7 +4,8 @@ services:
   nats:
     network_mode: host
     image: nats
-    entrypoint: /nats-server -js
+    entrypoint: /nats-server 
+    #entrypoint: /nats-server -js
     # restart: always
     # ports: 
     #    - "4222:4222"
