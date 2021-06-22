@@ -1,11 +1,5 @@
-FROM nats:latest AS repo_nats
+FROM golang:latest 
 
+RUN GO111MODULE=on go get github.com/nats-io/nats-server/v2
 
-FROM ubuntu:18.04 as repo_ubuntu
-
-COPY --from=repo_ubuntu /usr/bin /usr/bin/
-COPY --from=repo_ubuntu /bin /bin/
-
-ENTRYPOINT ["/bin/nats-server"]
-CMD ["-c", "/nats/conf/nats-server.conf"]
 
