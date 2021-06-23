@@ -1,6 +1,8 @@
 FROM alpine:latest
 
-RUN apk add libc6-compat
+RUN apk add --no-cache bash curl jq libc6-compat 
+	
+
 WORKDIR /opt
 COPY nats-server ./
 #COPY bin/ /bin/
