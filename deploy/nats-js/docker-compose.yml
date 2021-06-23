@@ -4,7 +4,7 @@ services:
   nats:
     network_mode: host
     image: nats
-    #entrypoint: /nats-server 
+    #entrypoint: /nats-server --name srvcargo 
     entrypoint: /nats-server -js --name srvcargo 
     #entrypoint: /nats-server -js --name srvcargo -DV
     # restart: always
