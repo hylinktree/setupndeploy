@@ -134,7 +134,9 @@ RUN set -eux; \
     rm -rf /var/cache/apk/*; \
     echo "SCC generation phase completed";
 
-RUN apk add --no-cache bash && echo "alias l='ls -al --color=never'" >> /root/.bashrc \
+RUN apk add --no-cache bash && \
+	apk add --no-cache gradle && \
+	echo "alias l='ls -al --color=never'" >> /root/.bashrc \
 	&& echo "alias gf='git fetch;git pull'" >> /root/.bashrc \
 	&& echo "alias gfm='gf;gm'" >> /root/.bashrc \
 	&& echo "alias gm='git commit -amnocomment;git push'" >> /root/.bashrc \
