@@ -134,5 +134,7 @@ RUN set -eux; \
     rm -rf /var/cache/apk/*; \
     echo "SCC generation phase completed";
 
+RUN apk add --no-cache bash
+
 CMD ["jshell"]
 
