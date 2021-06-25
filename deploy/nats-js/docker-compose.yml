@@ -4,8 +4,9 @@ services:
   nats:
     network_mode: host
     image: nats
-    #entrypoint: /nats-server --name srvcargo 
-    entrypoint: /nats-server -js --name srvcargo 
+    entrypoint: /nats-server --name srvcargo -js
+    #entrypoint: /nats-server --name srvcargo -m 8222 
+    #entrypoint: /nats-server -js --name srvcargo -m 8222 -DV
     #entrypoint: /nats-server -js --name srvcargo -DV
     # restart: always
     # ports: 
