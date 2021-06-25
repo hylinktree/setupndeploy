@@ -1,1 +1,1 @@
-docker build . -t alpine-jav
+docker build . -t al-jav
