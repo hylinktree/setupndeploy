@@ -1,0 +1,13 @@
+pscpu() {
+        A=10
+        B=3
+        if (( $# > 0 )); then
+                A=$1
+        fi
+        if (( $# > 1 )); then
+                B=$2
+        fi
+        #echo $A, $B
+        for((;;));do echo $HOSTNAME `date +"%F %T"`; top -n 1 -o %CPU|head -n $A|tail -n $B; sleep 8; done }
+
+
