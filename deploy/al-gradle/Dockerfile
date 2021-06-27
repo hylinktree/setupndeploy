@@ -134,7 +134,7 @@ RUN set -eux; \
     rm -rf /var/cache/apk/*; \
     echo "SCC generation phase completed";
 
-RUN apk add --no-cache bash && \
+RUN apk add --no-cache bash git docker docker-compose && \
 	apk add --no-cache gradle && \
 	echo "alias l='ls -al --color=never'" >> /root/.bashrc \
 	&& echo "alias gf='git fetch;git pull'" >> /root/.bashrc \

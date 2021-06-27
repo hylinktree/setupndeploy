@@ -6,7 +6,7 @@ services:
     image: nats
     restart: "no"
     #entrypoint: /nats-server --name srvcargo -js 
-    entrypoint: /nats-server --name srvcargo -m 8222 
+    entrypoint: /nats-server -js --name srvcargo -m 8222 
     #entrypoint: /nats-server -js --name srvcargo -m 8222 -DV
     #entrypoint: /nats-server -js --name srvcargo -DV
     # restart: always
