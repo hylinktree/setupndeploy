@@ -54,12 +54,15 @@ RUN apk add --no-cache tzdata --virtual .build-deps curl binutils zstd \
     && apk del --purge .build-deps glibc-i18n \
     && rm -rf /tmp/*.apk /tmp/gcc /tmp/gcc-libs.tar* /tmp/libz /tmp/libz.tar.xz /var/cache/apk/*
 
-RUN apk add --no-cache git bash docker docker-compose && \
-	echo "alias l='ls -al --color=never'" >> /root/.bashrc \
+RUN echo "alias l='ls -al --color=never'" >> /root/.bashrc \
 	&& echo "alias gf='git fetch;git pull'" >> /root/.bashrc \
 	&& echo "alias gfm='gf;gm'" >> /root/.bashrc \
 	&& echo "alias gm='git commit -amnocomment;git push'" >> /root/.bashrc \
 	&& echo "alias gs='git status'" >> /root/.bashrc 
+
+RUN apk add --no-cache git bash docker docker-compose py3-pip
+#COPY bashrc /tmp/
+#RUN cat /tmp/bashrc >> /root/.bashrc
 
 ENV PS1="\u@\h:\w#" 
 CMD ["bash"]
