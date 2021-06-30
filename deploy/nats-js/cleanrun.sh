@@ -1,2 +1,2 @@
 rm -rf data/
-./nats-server -n cargo -c b.conf
+./nats-server -n cargo -c b.conf 
