@@ -1,1 +1,1 @@
-docker run --rm -it -v /root/github/setupndeploy/deploy/nats-js/nsc.confd:/nsc synadia/nats-box:latest
+docker run --rm -it --network host -v /root/github/setupndeploy/deploy/nats-js/nsc.confd:/nsc synadia/nats-box:latest
