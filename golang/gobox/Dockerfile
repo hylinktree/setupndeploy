@@ -1,5 +1,5 @@
 FROM gdca/basego:latest
-WORKDIR /gcbox
+WORKDIR /gobox
 COPY *.go ./
-RUN go build -o gcbox
-CMD [ "/gcbox/gcbox", "echo", "--terminator" ]
+# RUN go build -o gobox
+CMD [ "/gobox/gobox", "echo", "--terminator" ]
