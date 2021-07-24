@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"sync"
 	"time"
 
 	"github.com/go-resty/resty/v2"
@@ -39,8 +40,31 @@ func BGet(psi *string) string {
 	return *ro.Action
 }
 
+func worker(id int, wg *sync.WaitGroup) {
+
+	defer wg.Done()
+
+	fmt.Printf("Worker %d starting\n", id)
+
+	time.Sleep(time.Second)
+	fmt.Printf("Worker %d done\n", id)
+}
+
+func main2() {
+
+	var wg sync.WaitGroup
+
+	for i := 1; i <= 5; i++ {
+		wg.Add(1)
+		go worker(i, &wg)
+	}
+
+	wg.Wait()
+}
+
 func main() {
-	var yy := BGet("https://google.com")
+	main2()
+	// var yy := BGet("https://google.com")
 	now := time.Now()
 	fmt.Println("gcbox runs @ ", now)
 
