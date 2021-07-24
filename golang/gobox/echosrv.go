@@ -70,6 +70,19 @@ func EchoSrvA(args []string) {
 	fmt.Println("process.delay=", gEchoParams.delay, "ms")
 
 	r := gin.Default()
-	r.GET("/ping", handlePing)
+	// r.GET("/ping", handlePing)
+	r.GET("/xing", func(c *gin.Context) {
+		pvo := makeDefaultVo()
+		// count := c.Query("count")
+		// fmt.Printf("query.(delay count)=(%d %s)", gEchoParams.delay, count)
+		// time.Sleep(time.Duration(gEchoParams.delay) * time.Millisecond)
+		// if gEchoParams.terminator {
+		pvo.Status = fmt.Sprintf("Hello.from{%s:%s}",
+			gEchoParams.name, gEchoParams.port)
+		// fmt.Println("outputA is", pvo)
+		c.JSON(200, pvo)
+		// return
+		// }
+	})
 	r.Run(":" + gEchoParams.port) // listen and serve on 0.0.0.0:8080
 }
