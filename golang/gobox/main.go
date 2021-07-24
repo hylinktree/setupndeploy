@@ -40,6 +40,7 @@ func BGet(psi *string) string {
 }
 
 func main() {
+	var yy := BGet("https://google.com")
 	now := time.Now()
 	fmt.Println("gcbox runs @ ", now)
 
