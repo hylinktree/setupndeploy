@@ -40,6 +40,71 @@ func BGet(psi *string) string {
 	return *ro.Action
 }
 
+// Employee is an interface for printing employee details
+type Employee interface {
+	PrintName(name string)
+	PrintSalary(basic int, tax int) int
+}
+
+// Emp user-defined type
+type Emp int
+
+type Kmp struct {
+	id   int
+	name string
+}
+
+func (e Kmp) PrintName(name string) {
+	fmt.Printf("ID:%d name:%s\n", e.id, e.name)
+}
+func (e Kmp) PrintSalary(basic int, tax int) int {
+	fmt.Printf("Salary is %d\n", basic+tax)
+	return basic + tax
+}
+
+// PrintName method to print employee name
+func (e Emp) PrintName(name string) {
+	fmt.Println("Employee Id:\t", e)
+	fmt.Println("Employee Name:\t", name)
+}
+
+// PrintSalary method to calculate employee salary
+func (e Emp) PrintSalary(basic int, tax int) int {
+	var salary = (basic * tax) / 100
+	return basic - salary
+}
+
+func main5() {
+	var e1 Employee
+	e1 = Emp(1)
+	e1.PrintName("John Doe")
+	fmt.Println("Employee Salary:", e1.PrintSalary(25000, 5))
+
+	e1 = Kmp{22, "smith"}
+	e1.PrintName("dolly")
+	e1.PrintSalary(999, 888)
+}
+
+type I interface {
+	M()
+	// Q()
+}
+
+type T struct {
+	S string
+}
+
+// This method means type T implements the interface I,
+// but we don't need to explicitly declare that it does so.
+func (t T) M() {
+	fmt.Println(t.S)
+}
+
+func main3() {
+	var i I = T{"hello"}
+	i.M()
+}
+
 func worker(id int, wg *sync.WaitGroup) {
 
 	// defer wg.Done()
@@ -65,6 +130,7 @@ func main2() {
 }
 
 func main() {
+	main5()
 	main2()
 	// var yy := BGet("https://google.com")
 	now := time.Now()
