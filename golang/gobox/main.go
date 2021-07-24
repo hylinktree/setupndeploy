@@ -42,12 +42,13 @@ func BGet(psi *string) string {
 
 func worker(id int, wg *sync.WaitGroup) {
 
-	defer wg.Done()
+	// defer wg.Done()
 
 	fmt.Printf("Worker %d starting\n", id)
 
 	time.Sleep(time.Second)
 	fmt.Printf("Worker %d done\n", id)
+	wg.Add(-1)
 }
 
 func main2() {
@@ -58,6 +59,7 @@ func main2() {
 		wg.Add(1)
 		go worker(i, &wg)
 	}
+	// wg.Add(9)
 
 	wg.Wait()
 }
