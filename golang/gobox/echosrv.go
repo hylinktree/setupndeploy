@@ -94,7 +94,7 @@ func DeployServers(num int) {
 		sname := fmt.Sprintf("srv%03d", i)
 		sport := fmt.Sprintf("%d", 8100+i)
 		wg.Add(1)
-		runSrv(sname, sport)
+		go runSrv(sname, sport)
 	}
 	wg.Wait()
 }
@@ -113,5 +113,6 @@ func runSrv(sname string, sport string) {
 		// return
 		// }
 	})
+	fmt.Printf("make srv@%s\n", sport)
 	r.Run(":" + sport) // listen and serve on 0.0.0.0:8080
 }
