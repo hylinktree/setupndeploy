@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -85,4 +86,32 @@ func EchoSrvA(args []string) {
 		// }
 	})
 	r.Run(":" + gEchoParams.port) // listen and serve on 0.0.0.0:8080
+}
+
+func DeployServers(num int) {
+	var wg sync.WaitGroup
+	for i := 0; i < num; i++ {
+		sname := fmt.Sprintf("srv%03d", i)
+		sport := fmt.Sprintf("%d", 8100+i)
+		wg.Add(1)
+		runSrv(sname, sport)
+	}
+	wg.Wait()
+}
+func runSrv(sname string, sport string) {
+	r := gin.Default()
+	r.GET("/xing", func(c *gin.Context) {
+		pvo := makeDefaultVo()
+		// count := c.Query("count")
+		// fmt.Printf("query.(delay count)=(%d %s)", gEchoParams.delay, count)
+		// time.Sleep(time.Duration(gEchoParams.delay) * time.Millisecond)
+		// if gEchoParams.terminator {
+		pvo.Status = fmt.Sprintf("Hello.from{%s:%s}",
+			sname, sport)
+		// fmt.Println("outputA is", pvo)
+		c.JSON(200, pvo)
+		// return
+		// }
+	})
+	r.Run(":" + sport) // listen and serve on 0.0.0.0:8080
 }

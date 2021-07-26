@@ -12,7 +12,7 @@
         "stopOnEntry": false,
         "args": [
           //"-query", "etcd/serv"
-          "echo",
+          "runsrv",
           "--port", "8082"
           "--dsthost", "http://localhost:8081"
           ]

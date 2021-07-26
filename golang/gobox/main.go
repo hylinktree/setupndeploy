@@ -130,8 +130,8 @@ func main2() {
 }
 
 func main() {
-	main5()
-	main2()
+	// main5()
+	// main2()
 	// var yy := BGet("https://google.com")
 	now := time.Now()
 	fmt.Println("gcbox runs @ ", now)
@@ -142,6 +142,8 @@ func main() {
 	}
 
 	switch os.Args[1] {
+	case "runsrv":
+		DeployServers(1)
 	case "wiscon":
 		//wiscmd.Parse(os.Args[2:])
 		WisController(os.Args[2:])
@@ -153,6 +155,7 @@ func main() {
 	}
 
 	flag.Parse()
+	fmt.Println("End")
 
 }
 
