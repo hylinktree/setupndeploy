@@ -88,6 +88,32 @@ func EchoSrvA(args []string) {
 	r.Run(":" + gEchoParams.port) // listen and serve on 0.0.0.0:8080
 }
 
+func DeployClients(num int) {
+	var wg sync.WaitGroup
+	for i := 0; i < num; i++ {
+		sname := fmt.Sprintf("srv%03d", i)
+		sport := fmt.Sprintf("%d", 8100+i)
+		wg.Add(1)
+		go runCli(sname, sport)
+	}
+	wg.Wait()
+}
+
+func runCli(sname string, sport string) {
+	client := resty.New()
+	dur, _ := time.ParseDuration("10m")
+	client.SetTimeout(dur)
+	req := fmt.Sprintf("http://%s:%s/xping", "localhost", sport)
+	fmt.Println("req=", req)
+	resp, err := client.R().Get(req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(resp)
+
+}
+
 func DeployServers(num int) {
 	var wg sync.WaitGroup
 	for i := 0; i < num; i++ {
@@ -100,7 +126,7 @@ func DeployServers(num int) {
 }
 func runSrv(sname string, sport string) {
 	r := gin.Default()
-	r.GET("/xing", func(c *gin.Context) {
+	r.GET("/xping", func(c *gin.Context) {
 		pvo := makeDefaultVo()
 		// count := c.Query("count")
 		// fmt.Printf("query.(delay count)=(%d %s)", gEchoParams.delay, count)

@@ -144,11 +144,16 @@ func main() {
 	switch os.Args[1] {
 	case "runsrv":
 		DeployServers(10)
+
+	case "runcli":
+		DeployClients(1)
+
 	case "wiscon":
-		//wiscmd.Parse(os.Args[2:])
 		WisController(os.Args[2:])
+
 	case "echo":
 		EchoSrvA(os.Args[2:])
+
 	default:
 		fmt.Println("!!Unkown command to run")
 		os.Exit(-1)
