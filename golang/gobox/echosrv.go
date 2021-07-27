@@ -88,35 +88,49 @@ func EchoSrvA(args []string) {
 	r.Run(":" + gEchoParams.port) // listen and serve on 0.0.0.0:8080
 }
 
-func DeployClients(num int) {
+func DeployClients(args []string) {
+	wiscmd := flag.NewFlagSet("wiscon", flag.ExitOnError)
+	pcount := wiscmd.Int("count", 1, "concurrent servers")
+	pruns := wiscmd.Int("runs", 1, "runs")
+
+	wiscmd.Parse(args)
+
 	var wg sync.WaitGroup
-	for i := 0; i < num; i++ {
+	for i := 0; i < *pcount; i++ {
 		sname := fmt.Sprintf("srv%03d", i)
 		sport := fmt.Sprintf("%d", 8100+i)
 		wg.Add(1)
-		go runCli(sname, sport)
+		go runCli(sname, sport, *pruns)
 	}
 	wg.Wait()
 }
 
-func runCli(sname string, sport string) {
+func runCli(sname string, sport string, runs int) {
 	client := resty.New()
 	dur, _ := time.ParseDuration("10m")
 	client.SetTimeout(dur)
 	req := fmt.Sprintf("http://%s:%s/xping", "localhost", sport)
 	fmt.Println("req=", req)
-	resp, err := client.R().Get(req)
-	if err != nil {
-		fmt.Println(err)
-		return
+	for i := 0; i < runs; i++ {
+		resp, err := client.R().Get(req)
+		if err != nil {
+			fmt.Println(err)
+			break
+		}
+		fmt.Println(resp)
 	}
-	fmt.Println(resp)
 
 }
 
-func DeployServers(num int) {
+func DeployServers(args []string) {
+	gin.SetMode(gin.ReleaseMode)
+
+	wiscmd := flag.NewFlagSet("wiscon", flag.ExitOnError)
+	pcount := wiscmd.Int("count", 1, "concurrent servers")
+
+	wiscmd.Parse(args)
 	var wg sync.WaitGroup
-	for i := 0; i < num; i++ {
+	for i := 0; i < *pcount; i++ {
 		sname := fmt.Sprintf("srv%03d", i)
 		sport := fmt.Sprintf("%d", 8100+i)
 		wg.Add(1)
@@ -125,6 +139,8 @@ func DeployServers(num int) {
 	wg.Wait()
 }
 func runSrv(sname string, sport string) {
+	visitors := 0
+
 	r := gin.Default()
 	r.GET("/xping", func(c *gin.Context) {
 		pvo := makeDefaultVo()
@@ -132,8 +148,9 @@ func runSrv(sname string, sport string) {
 		// fmt.Printf("query.(delay count)=(%d %s)", gEchoParams.delay, count)
 		// time.Sleep(time.Duration(gEchoParams.delay) * time.Millisecond)
 		// if gEchoParams.terminator {
-		pvo.Status = fmt.Sprintf("Hello.from{%s:%s}",
-			sname, sport)
+		pvo.Status = fmt.Sprintf("Hello.from{%s:%s}, cnt=%d",
+			sname, sport, visitors)
+		visitors += 1
 		// fmt.Println("outputA is", pvo)
 		c.JSON(200, pvo)
 		// return

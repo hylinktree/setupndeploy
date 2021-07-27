@@ -143,10 +143,10 @@ func main() {
 
 	switch os.Args[1] {
 	case "runsrv":
-		DeployServers(10)
+		DeployServers(os.Args[2:])
 
 	case "runcli":
-		DeployClients(1)
+		DeployClients(os.Args[2:])
 
 	case "wiscon":
 		WisController(os.Args[2:])

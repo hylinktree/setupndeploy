@@ -12,9 +12,10 @@
         "stopOnEntry": false,
         "args": [
           //"-query", "etcd/serv"
-          "runcli",
-          "--port", "8082",
-          "--dsthost", "http://localhost:8081"
+          // "runcli", "--count", "3"
+          "runsrv", "--count", "3"
+          // "--port", "8082",
+          // "--dsthost", "http://localhost:8081"
           ]
         }
     ]
