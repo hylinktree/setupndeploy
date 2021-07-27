@@ -92,15 +92,16 @@ func DeployClients(args []string) {
 	wiscmd := flag.NewFlagSet("wiscon", flag.ExitOnError)
 	pcount := wiscmd.Int("count", 1, "concurrent servers")
 	pruns := wiscmd.Int("runs", 1, "runs")
+	phost := wiscmd.String("host", "localhost", "target host")
 
 	wiscmd.Parse(args)
 
 	var wg sync.WaitGroup
 	for i := 0; i < *pcount; i++ {
-		sname := fmt.Sprintf("srv%03d", i)
+		// sname := fmt.Sprintf("srv%03d", i)
 		sport := fmt.Sprintf("%d", 8100+i)
 		wg.Add(1)
-		go runCli(&wg, sname, sport, *pruns)
+		go runCli(&wg, *phost, sport, *pruns)
 	}
 	wg.Wait()
 }
@@ -110,7 +111,7 @@ func runCli(wg *sync.WaitGroup, sname string, sport string, runs int) {
 	client := resty.New()
 	dur, _ := time.ParseDuration("10m")
 	client.SetTimeout(dur)
-	req := fmt.Sprintf("http://%s:%s/xping", "localhost", sport)
+	req := fmt.Sprintf("http://%s:%s/xping", sname, sport)
 	fmt.Println("req=", req)
 	for i := 0; i < runs; i++ {
 		resp, err := client.R().Get(req)
