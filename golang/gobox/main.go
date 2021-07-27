@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"gobox/utils"
 	"os"
 	"sync"
 	"time"
@@ -133,6 +134,7 @@ func main() {
 	// main5()
 	// main2()
 	// var yy := BGet("https://google.com")
+	utils.ShowDate()
 	now := time.Now()
 	fmt.Println("gcbox runs @ ", now)
 
