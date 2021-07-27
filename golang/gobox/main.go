@@ -1,5 +1,10 @@
 package main
 
+// NOTE
+//	WaitGroup needs to pass in 'pointer'
+//	when Channel needs not!
+//
+
 import (
 	"encoding/json"
 	"flag"
@@ -104,6 +109,23 @@ func (t T) M() {
 func main3() {
 	var i I = T{"hello"}
 	i.M()
+	time.Sleep(1 * time.Microsecond)
+	// goroutine.yield()
+}
+
+func fibonacci(c, quit chan int) {
+	x, y := 0, 1
+	for {
+		fmt.Printf("selecting: ")
+		select {
+		case c <- x:
+			fmt.Printf("push %d\n", x)
+			x, y = y, x+y
+		case <-quit:
+			fmt.Println("get quit")
+			return
+		}
+	}
 }
 
 func worker(id int, wg *sync.WaitGroup) {
@@ -131,6 +153,15 @@ func main2() {
 }
 
 func main() {
+	c := make(chan int, 20)
+	quit := make(chan int)
+	go func() {
+		for i := 0; i < 10; i++ {
+			fmt.Printf("#%d.loads %d\n", i, <-c)
+		}
+		quit <- 0
+	}()
+	fibonacci(c, quit)
 
 	// for {
 	// 	uuidWithHyphen := uuid.NewRandom()
