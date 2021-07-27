@@ -100,12 +100,13 @@ func DeployClients(args []string) {
 		sname := fmt.Sprintf("srv%03d", i)
 		sport := fmt.Sprintf("%d", 8100+i)
 		wg.Add(1)
-		go runCli(sname, sport, *pruns)
+		go runCli(&wg, sname, sport, *pruns)
 	}
 	wg.Wait()
 }
 
-func runCli(sname string, sport string, runs int) {
+func runCli(wg *sync.WaitGroup, sname string, sport string, runs int) {
+	defer wg.Done()
 	client := resty.New()
 	dur, _ := time.ParseDuration("10m")
 	client.SetTimeout(dur)
