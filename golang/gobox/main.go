@@ -131,6 +131,14 @@ func main2() {
 }
 
 func main() {
+
+	// for {
+	// 	uuidWithHyphen := uuid.NewRandom()
+	// 	fmt.Println(uuidWithHyphen)
+	// 	uuid := strings.Replace(uuidWithHyphen.String(), "-", "", -1)
+	// 	fmt.Println(uuid)
+	// }
+
 	// main5()
 	// main2()
 	// var yy := BGet("https://google.com")
