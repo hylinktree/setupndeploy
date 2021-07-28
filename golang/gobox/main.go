@@ -121,8 +121,8 @@ func fibonacci(c, quit chan int) {
 		case c <- x:
 			fmt.Printf("push %d\n", x)
 			x, y = y, x+y
-		case <-quit:
-			fmt.Println("get quit")
+		case w := <-quit:
+			fmt.Println("get quit msg", w)
 			return
 		}
 	}
@@ -152,7 +152,37 @@ func main2() {
 	wg.Wait()
 }
 
+func test2() {
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		fmt.Println("Hello world")
+	}()
+	wg.Wait()
+	fmt.Println("The end of world!")
+}
+
+func test31(n int, wg *sync.WaitGroup) {
+	fmt.Println("Helo world begin for #", n)
+	wg.Wait()
+	fmt.Println("Helo world end for #", n)
+}
+
+func test3() {
+	var wg sync.WaitGroup
+	wg.Add(1)
+	for i := 0; i < 9; i++ {
+		go test31(i, &wg)
+	}
+	time.Sleep(time.Microsecond * 2000)
+	wg.Done()
+	fmt.Println("End of test")
+
+}
+
 func main() {
+	test3()
 	c := make(chan int, 20)
 	quit := make(chan int)
 	go func() {
