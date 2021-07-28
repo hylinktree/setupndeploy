@@ -6,11 +6,15 @@ package main
 //
 
 import (
+	"bytes"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"gobox/utils"
+	"io"
+	"log"
 	"os"
+	"strings"
 	"sync"
 	"time"
 
@@ -181,8 +185,74 @@ func test3() {
 
 }
 
+func label_test() {
+	fmt.Println("label.in")
+P001:
+	for {
+		for i := 0; i < 10; i++ {
+			fmt.Printf("running.%d\n", i)
+			if i > 3 {
+				break P001
+			}
+		}
+	}
+	fmt.Println("label.out")
+}
+
+func tick_test() {
+	ticker := time.NewTicker(time.Second * 3)
+	defer ticker.Stop()
+	for {
+		select {
+		case t := <-ticker.C:
+			fmt.Println(t, t.Unix())
+		}
+	}
+}
+
+func WriteJSON(v interface{}) string {
+	w := new(bytes.Buffer)
+	err1 := json.NewEncoder(w).Encode(v)
+	if err1 != nil {
+		return ""
+	}
+	return w.String()
+}
+
+func json_decode() {
+	const jsonStream = `
+	{"Name": "Ed", "Text": "Knock knock."}
+	{"Name": "Sam", "Text": "Who's there?"}
+	{"Name": "Ed", "Text": "Go fmt."}
+	{"Name": "Sam", "Text": "Go fmt who?"}
+	{"Name": "Ed", "Text": "Go fmt yourself!"}
+`
+	type Message struct {
+		Name, Text string
+	}
+
+	mx := Message{"John", "Helo"}
+
+	m := WriteJSON(mx)
+	fmt.Println(m)
+
+	dec := json.NewDecoder(strings.NewReader(jsonStream))
+	for {
+		var m Message
+		if err := dec.Decode(&m); err == io.EOF {
+			break
+		} else if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("%s: %s\n", m.Name, m.Text)
+	}
+}
+
 func main() {
-	test3()
+	json_decode()
+	// tick_test()
+	// label_test()
+	// test3()
 	c := make(chan int, 20)
 	quit := make(chan int)
 	go func() {
