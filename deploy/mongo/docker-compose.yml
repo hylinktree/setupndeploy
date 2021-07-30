@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  mongo:
+    network_mode: host
+    image: mongo
+    restart: "no"
+    #entrypoint: /nats-server --name srvcargo -js 
+    #entrypoint: /nats-server -js --name srvcargo -m 8222 
+    #entrypoint: /nats-server -js --name srvcargo -m 8222 -DV
+    #entrypoint: /nats-server -js --name srvcargo -DV
+    # restart: always
+    # ports: 
+    #    - "4222:4222"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    volumes:
+      - ./db:/data/db
+
