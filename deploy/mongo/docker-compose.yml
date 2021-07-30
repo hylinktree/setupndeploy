@@ -22,11 +22,15 @@ services:
     image: mongo-express
     network_mode: host
     restart: "no"
+    depends_on:
+      - "mongo"
     # ports:
     #   - 8081:8081
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
       ME_CONFIG_MONGODB_ADMINPASSWORD: secret
-      ME_CONFIG_MONGODB_SERVER: 140.92.24.57
+      ME_CONFIG_MONGODB_SERVER: "mongo"
+      # ME_CONFIG_MONGODB_SERVER: 127.0.0.1
+#     ME_CONFIG_MONGODB_SERVER: 140.92.24.57
       
 # docker run --rm -e ME_CONFIG_MONGODB_SERVER=localhost -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin -e ME_CONFIG_MONGODB_ADMINPASSWORD=secret mongo-express
